@@ -105,6 +105,17 @@ function App() {
             <button onClick={() => {deleteTodo(todo.id)}}>❌</button>
 
             <button onClick={() => {addNewComment(todo.id)}}>Add Comment</button>
+            
+            {(todo.comments) && (todo.comments.length > 0) && (
+              <>
+                <b>Comments:</b>
+                <ul>
+                  {todo.comments.map(comment => (
+                    <li key={comment.id}>{comment.message}</li>
+                  ))}
+                </ul>
+              </>
+            )}
 
             <div className="new-comment-forms">
               <input
@@ -116,8 +127,7 @@ function App() {
                 }}
               />
 
-              
-              <button onClick={() => {alert(newComments[todo.id])}}>Add Comment</button>
+              <button onClick={() => {addNewComment(todo.id)}}>Add Comment</button>
             </div>
 
           </li>
