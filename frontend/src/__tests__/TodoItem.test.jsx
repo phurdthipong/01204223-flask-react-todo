@@ -11,9 +11,18 @@ const baseTodo = {
 
 describe('TodoItem', () => {
   it('renders with no comments correctly', () => {
+    const todoWithComments = {
+        ...baseTodo,
+        comments: [
+            {id: 1,message: 'First comment'},
+            {id: 2,message: 'Another comment'},
+        ]
+    }
     render(
-        <TodoItem todo={baseTodo} />
+        <TodoItem todo={todoWithComments} />
     );
     expect(screen.getByText('Sample Todo')).toBeInTheDocument();
+    expect(screen.getByText('First comment')).toBeInTheDocument();
+    expect(screen.getByText('Another comment')).toBeInTheDocument();
   });
 });
