@@ -2,11 +2,11 @@ import './App.css'
 import { useState } from 'react'
 
 
-function TodoItem({todo}) {
+function TodoItem({todo, toggleDone, deleteTodo, addNewComment}) {
     const [newComment, setNewComment] = useState("");
     return (
 
-        <li key={todo.id}>
+        <li>
             <span className={todo.done ? "done" : ""}>{todo.title}</span>
             <button onClick={() => {toggleDone(todo.id)}}>Toggle</button>
             <button onClick={() => {deleteTodo(todo.id)}}>❌</button>
@@ -34,7 +34,10 @@ function TodoItem({todo}) {
                 }}
               />
 
-              <button onClick={() => {addNewComment(todo.id)}}>Add Comment</button>
+              <button onClick={() => { 
+                addNewComment(todo.id, newComment);
+                setNewComment("");
+              }}>Add Comment</button>
             </div>
 
           </li>
