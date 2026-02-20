@@ -3,8 +3,8 @@ import './App.css'
 
 import TodoItem from './TodoItem.jsx'
 
-function App() {
-  const TODOLIST_API_URL = 'http://localhost:5000/api/todos/';
+function TodoList({apiUrl}) {
+  const TODOLIST_API_URL = apiUrl;
 
   const [todoList, setTodoList] = useState([]);
   const [newTitle, setNewTitle] = useState("");
@@ -108,6 +108,8 @@ function App() {
       </ul>
       New: <input type="text" value={newTitle} onChange={(e) => {setNewTitle(e.target.value)}} />
       <button onClick={() => {addNewTodo()}}>Add</button>
+      <br/>
+      <a href="/about">About</a>
     </>
   )
 }

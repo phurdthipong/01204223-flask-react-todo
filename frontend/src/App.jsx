@@ -8,7 +8,26 @@ function App() {
   const TODOLIST_API_URL = 'http://localhost:5000/api/todos/';
 
   return (
-    <TodoList apiUrl={TODOLIST_API_URL}/>
+    <BrowserRouter>
+      <Routes>
+        <Route 
+          path="/" 
+          element={
+            <TodoList apiUrl={TODOLIST_API_URL}/>
+          } 
+        />
+        <Route 
+          path="/about" 
+          element={
+            <>
+              <h1>About</h1>
+              <p>This is a simple todo list application built with React and Flask.</p>
+              <a href="/">Back to Home</a>
+            </>
+          } 
+        />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
