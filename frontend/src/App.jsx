@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-//import { AuthProvider } from './context/AuthContext.jsx';
+import { AuthProvider } from './context/AuthContext.jsx';
+
 import './App.css'
 import LoginForm from './LoginForm.jsx';
 

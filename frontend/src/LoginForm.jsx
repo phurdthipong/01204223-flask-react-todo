@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import './App.css'
+import { useAuth } from "./context/AuthContext";
+
 
 function LoginForm({loginUrl}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { login, username: loggedInUsername } = useAuth();
 
-  async function handleLogin(e) {
-    e.preventDefault();
-  }
+  
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -24,6 +25,7 @@ function LoginForm({loginUrl}) {
         const data = await response.json();
         console.log(data);
         alert("Login successful.  access token = " + data.access_token);
+        login(username, data.access_token);
       } else if (response.status === 401) {
         setErrorMessage("Invalid username or password");
       }
@@ -42,6 +44,7 @@ function LoginForm({loginUrl}) {
       <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
       <br/>
       <button type="submit">Login</button>
+      {loggedInUsername && <p>User {loggedInUsername} is already logged in.</p>}
     </form>
   );
 }
