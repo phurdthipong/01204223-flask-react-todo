@@ -12,6 +12,7 @@ function App() {
   const TODOLIST_LOGIN_URL = 'http://localhost:5000/api/login/';
 
   return (
+    <AuthProvider>
     <BrowserRouter>
       <Routes>
         <Route 
@@ -30,6 +31,10 @@ function App() {
             </>
           } 
         />
+      </Routes>
+      <Routes>
+        ....
+
         <Route
           path="/login"
           element={
@@ -38,6 +43,7 @@ function App() {
         />
       </Routes>
     </BrowserRouter>
+    </AuthProvider>
   )
 }
 

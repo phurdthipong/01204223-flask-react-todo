@@ -21,15 +21,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthProvider>
-      
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={children} />
-          <Route path="/login" element={<LoginForm loginUrl={TODOLIST_LOGIN_URL} />} />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+    <AuthContext.Provider value={{ username, accessToken, login, logout }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

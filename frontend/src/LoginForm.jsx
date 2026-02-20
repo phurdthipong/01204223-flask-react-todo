@@ -7,13 +7,13 @@ function LoginForm({loginUrl}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { login, username: loggedInUsername } = useAuth();
-
+  const [errorMessage, setErrorMessage] = useState("");
   
 
   async function handleLogin(e) {
     e.preventDefault();
     try {
-      const [errorMessage, setErrorMessage] = useState("");
+      
       const response = await fetch(loginUrl, {
         method: 'POST',
         headers: {
