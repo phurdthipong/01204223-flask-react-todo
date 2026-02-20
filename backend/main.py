@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_migrate import Migrate 
+import click
 
-from models import TodoItem, Comment, db  
+
+from models import TodoItem, Comment, db, User
 
 app = Flask(__name__)
 CORS(app)
@@ -76,3 +78,18 @@ def delete_todo(id):
     db.session.delete(todo)
     db.session.commit()
     return jsonify({'message': 'Todo deleted successfully'})
+
+@app.cli.command("create-user")
+@click.argument("username")
+@click.argument("full_name")
+@click.argument("password")
+def create_user(username, full_name, password):
+    user = User.query.filter_by(username=username).first()
+    if user:
+        click.echo("User already exists.")
+        return
+    user = User(username=username, full_name=full_name)
+    user.set_password(password)
+    db.session.add(user)
+    db.session.commit()
+    click.echo(f"User {username} created successfully.")
