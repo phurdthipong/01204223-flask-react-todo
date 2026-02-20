@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import { expect } from 'vitest'
 import TodoItem from '../TodoItem.jsx'
+import userEvent from '@testing-library/user-event'
+
 
 const baseTodo = {
     id: 1,
@@ -50,4 +52,34 @@ describe('TodoItem', () => {
     );
     expect(screen.queryByText('No comments:')).not.toBeInTheDocument();
     });
+  it('makes callback to toggleDone when Toggle button is clicked', () => {
+    const onToggleDone = vi.fn();
+    render(
+      <TodoItem 
+       todo={baseTodo} 
+       toggleDone={onToggleDone} />
+    );
+    const button = screen.getByRole('button', { name: /toggle/i });
+    button.click();
+    expect(onToggleDone).toHaveBeenCalledWith(baseTodo.id);
+  });
+  it('makes callback to addNewComment when a new comment is added', async () => {
+    const onAddNewComment = vi.fn();
+    
+    render(
+      <TodoItem 
+        todo={baseTodo} 
+        addNewComment={onAddNewComment} 
+      />
+    );
+
+    const input = screen.getByRole('textbox');
+    await userEvent.type(input, 'New comment');
+
+    const submitButton = screen.getAllByRole('button', { name: /add/i }).at(-1); 
+    
+    await userEvent.click(submitButton);
+
+    expect(onAddNewComment).toHaveBeenCalledWith(baseTodo.id, 'New comment');
+});
 }); 
