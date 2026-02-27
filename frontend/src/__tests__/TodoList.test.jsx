@@ -2,6 +2,12 @@ import { render, screen } from '@testing-library/react'
 import { vi } from 'vitest'
 import App from '../App.jsx'
 
+vi.mock('../context/AuthContext', () => ({
+  useAuth: vi.fn(),
+}));
+
+import { useAuth } from '../context/AuthContext';
+
 const mockResponse = (body, ok = true) =>
   Promise.resolve({
     ok,
@@ -19,9 +25,14 @@ const originalTodoList = [
   todoItem2,
 ]
 
-describe('App', () => {
+describe('TodoList', () => {
   beforeEach(() => {
     vi.stubGlobal('fetch', vi.fn());
+    useAuth.mockReturnValue({
+      username: 'testuser',
+      login: vi.fn(),
+      logout: vi.fn(),
+    });
   });
 
   afterEach(() => {
