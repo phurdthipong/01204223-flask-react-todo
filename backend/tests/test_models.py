@@ -1,34 +1,24 @@
 from models import User
+from models import TodoItem, Comment, db
 
-import pytest
 
-from main import app as flask_app
-from models import db
+def test_empty_todoitem(app_context):
+    assert TodoItem.query.count() == 0
 
-@pytest.fixture
-def app():
-    flask_app.config.update(
-        {
-            'TESTING': True,
-            'SQLALCHEMY_DATABASE_URI': f'sqlite:///:memory:',
-        }
-    )
+def create_todo_item_1():
+    todo = TodoItem(title='Todo with comments', done=True)
+    comment = Comment(message='Nested', todo=todo)
+    db.session.add_all([todo, comment])
+    db.session.commit()
+    return todo
 
-    with flask_app.app_context():
-        db.drop_all()
-        db.create_all()
+def test_todo_to_dict_includes_nested_comments(app_context):
+    todo = create_todo_item_1()
+    id = todo.id
 
-    return flask_app
-
-@pytest.fixture
-def client(app):
-    return app.test_client()
-
-@pytest.fixture
-def app_context(app):
-    with app.app_context():
-        yield
-
+    test_todo = TodoItem.query.get(id)
+    assert len(test_todo.comments) == 1
+    
 def test_check_correct_password():
     user = User()
     user.set_password("testpassword")
