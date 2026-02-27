@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { vi } from 'vitest'
-import App from '../App.jsx'
+import TodoList from '../TodoList.jsx'
 
 vi.mock('../context/AuthContext', () => ({
   useAuth: vi.fn(),
@@ -45,7 +45,7 @@ describe('TodoList', () => {
       mockResponse(originalTodoList)
     );
 
-    render(<App />);
+    render(<TodoList />);
 
     expect(await screen.findByText('First todo')).toBeInTheDocument();
     expect(await screen.findByText('Second todo')).toBeInTheDocument();
@@ -59,7 +59,7 @@ describe('TodoList', () => {
       .mockImplementationOnce(() => mockResponse(originalTodoList))    
       .mockImplementationOnce(() => mockResponse(toggledTodoItem1));
 
-    render(<App />);
+    render(<TodoList />);
 
     expect(await screen.findByText('First todo')).not.toHaveClass('done');
 
